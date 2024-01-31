@@ -1,4 +1,4 @@
 import './commands'
+import '@shelex/cypress-allure-plugin';
 require('@cypress/xpath');
-//require('cypress-terminal-report/src/installLogsCollector')();
 require('cypress-plugin-api');
