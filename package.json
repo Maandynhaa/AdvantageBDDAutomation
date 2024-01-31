@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "cypress:open": "cypress open",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "api": "npx cypress open -C api.config"
   },
   "author": "",
   "license": "ISC",
@@ -37,11 +37,18 @@
     ],
     "html": {
       "enabled": true
+    },
+    "cucumberJson": {
+      "generate": true,
+      "outputFolder": "cypress/cucumber-json",
+      "filePrefix": "",
+      "fileSuffix": ".cucumber"
     }
   },
   "dependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^16.0.3",
     "@cypress/xpath": "^2.0.3",
-    "tsify": "^5.0.4"
+    "tsify": "^5.0.4",
+    "cypress-plugin-api": "^2.2.1"
   }
 }
