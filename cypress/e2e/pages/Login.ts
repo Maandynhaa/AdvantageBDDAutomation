@@ -1,19 +1,27 @@
 export class Login {
-    private loginEmailAddress = ".login-form input[name='email']"
-    private loginPassword = ".login-form input[name='password']"
-    private loginLogInButton = "button[data-qa='login-button']"
-    private loginName = "//*[contains(text(),'Logged in as')]"
+    private loginUserButton = "svg[id='menuUser']"
+    private loginUserName = ".login.ng-scope  input[name='username']"
+    private loginPassword = ".login.ng-scope  input[name='password']"
+    private loginLogInButton = "button[id='sign_in_btn']"
+    private loginName = "(//*[contains(text(),'Login')])[2]"
+    private loginIcorrect = "//*[contains(text(),'Incorrect')]"
     private productPageLink = "//*[contains(text(),'Products')]"
-
+    
     load(): void {
         cy.log("Pagina de Login")
-        cy.visit("https://www.automationexercise.com/login")
-        cy.log("Logado")
+        cy.visit("https://advantageonlineshopping.com/#/")
+        cy.log("Acesso a página")
     } 
 
-    setLoginEmailAddress(value: string): void {
-        cy.get(this.loginEmailAddress).type(value)
-        cy.log("Campo email preenchido")
+    submits(): void {
+        cy.get(this.loginUserButton).click()
+        cy.wait(2000)
+        cy.log("Clicado no usuario para o login")
+    }
+
+    setLoginUserName(value: string): void {
+        cy.get(this.loginUserName).type(value)
+        cy.log("Campo usuario preenchido")
     }
 
     setLoginPassword(value: string): void {
@@ -27,7 +35,13 @@ export class Login {
     }
 
     loggedUserNameVisible(): void {
-        cy.xpath(this.loginName).should("have.text", " Logged in as testeteste")
+        cy.xpath(this.loginName).should('be.visible')
+        cy.log("Usuario logado")
+    }
+
+    loggedIncorrectVisible(): void {
+        cy.xpath(this.loginIcorrect).should('be.visible')
+        cy.log("Usuario ou senha invalido")
     }
 
     openProductPage(): void {

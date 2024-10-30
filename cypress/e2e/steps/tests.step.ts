@@ -12,51 +12,51 @@ let checkout: any
 let payment: any
 let orderConfirmation: any
 
-Given("usuario logar na pagina", () => {
-    login = new Login()
-    login.load()
+Given("usuario acessar a pagina", () => {
+        login = new Login()
+        login.load()
 })
 
-When("entrar com usuario e senha valida", (table: DataTable) => {
+When("usuario logar na pagina", (table: DataTable) => {
     table.hashes().forEach(row => {
-        login.setLoginEmailAddress(row.username)
+        login = new Login()
+        login.submits()
+        login.setLoginUserName(row.username)
         login.setLoginPassword(row.password)
+        login.submit()
     })
-})
-
-When("clicar no botao de login", () => {
-    login.submit()
 })
 
 Then("usuario loga com sucesso na pagina de home", () => {
     login.loggedUserNameVisible()
 })
 
-Then("usuario procura produtos na pagina", () => {
-    login.openProductPage()
+Then("usuario ou senha invalido", () => {
+    login.loggedIncorrectVisible()
 })
 
-When("pesquisar camisetas", (table: DataTable) => {
+When("usuario seleciona lista de produtos na pagina", () => {
     product = new Product()
-    table.hashes().forEach(row => {
-        product.searchProductFromSearchBar(row.product)
-    })
     product.clickSearchButton()
+    product.addLaptopToCart()
 })
 
-When("adiciona duas camisetas no carrinho", () => {
-    product.addTshirtsToCart()
-})
-
-Then("usuario remove uma camiseta do carrinho", () => {
-    cart = new Cart()
-    cart.deleteOneTshirtFromCart()
+When("adiciono o laptop", () => {
+    product.addLaptopToCart()
 })
 
 Then("usuario processa a compra", () => {
+    cart = new Cart()
     cart.proceedToCheckout()
     checkout = new Checkout()
     checkout.placeTheOrder()
+})
+
+When("usuario limpa a compra", () => {
+    cart = new Cart()
+    cart.proceedToCheckout()
+    cart.proceedToCleanCart()
+
 })
 
 Then("usuario e direcionado para o pagamento", () => {
